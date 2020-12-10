@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gChat</title>
+
+    <link rel="stylesheet" href="/css/adminlte.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <style>
+        .full {
+            height: 100vh;
+            min-height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="full d-flex justify-content-center align-items-center">
+        <div id="loginDiv" class="card" style="width: 400px;">
+            <div class="p-5 text-center">
+                <img src="/images/bg-icon.png" width="100px" alt="bg-icon">
+                <h1 class="font-italic">gChat</h1>
+            </div>
+
+            <div class="card-body pt-0 pb-5 ">
+                <form id="login" action="#" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control text-center" id="username" placeholder="Username ....">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Join</button>
+                </form>
+            </div>
+
+        </div>
+        <!-- DIRECT CHAT -->
+        <div class="card direct-chat direct-chat-primary d-none">
+            <div class="card-header">
+                <h3 class="card-title reciever">Public Chat</h3>
+
+                <div class="card-tools">
+
+                    <button type="button" class="btn btn-tool" data-toggle="tooltip" title="Contacts"
+                        data-widget="chat-pane-toggle">
+                        <i class="fas fa-comments"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
+                    </button>
+
+
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <!-- Conversations are loaded here -->
+                <div class="direct-chat-messages">
+
+                </div>
+                <!--/.direct-chat-messages-->
+
+                <!-- Contacts are loaded here -->
+                <div class="direct-chat-contacts">
+                    <ul class="contacts-list">
+
+                    </ul>
+                    <!-- /.contacts-list -->
+                </div>
+                <!-- /.direct-chat-pane -->
+            </div>
+            <!-- /.card-body -->
+            <div class="container-fluid mt-1 d-none" id="typing">
+                <p class="bg-secondary p-2 rounded"></p>
+            </div>
+            <div class="card-footer">
+
+                <form id="messageForm" action="#" method="post">
+                    <div class="input-group">
+                        <input type="text" id="message" placeholder="Type Message ..." class="form-control">
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-primary">Send</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!--/.direct-chat -->
+    </div>
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/adminlte.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $(function () {
+
+            var socket = io();
+            var currentUser = ""
+            const newUserConnected = (user) => {
+                currentUser = user || `User${Math.floor(Math.random() * 1000000)}`;
+                socket.emit("new user", currentUser);
+            };
+            socket.on("new user", function (users, user) {
+                $('.contacts-list').html('')
+
+                users.map((user) => {
+                    if (currentUser != user) $('.contacts-list').append(chatList(user))
+
+                })
+                $('.direct-chat-messages').append(newUserJoin(user, users.length))
+
+            });
+            $('#messageForm').submit(function (e) {
+                e.preventDefault(); // prevents page reloading
+                if ($('#message').val()) {
+                    socket.emit('chat message', {
+                        message: $('#message').val(),
+                        sender: currentUser
+                    });
+                    $('.direct-chat-messages').append(senderMessage($('#message').val()))
+                    $('#message').val('');
+                    return false;
+                }
+
+            });
+            $('#login').submit(async function (e) {
+                e.preventDefault();
+                $('#loginDiv').append(loading())
+                setTimeout(() => {
+                    $('#loginDiv').addClass('d-none');
+                    currentUser = $('#username').val()
+                    // socket.emit("new user", $('#username').val());
+                    newUserConnected(currentUser);
+                    $('.direct-chat').removeClass('d-none');
+                }, 3000)
+            });
+            $('#message').keyup(function () {
+                socket.emit('typing', currentUser);
+            })
+            $('#message').focusout(() => {
+                socket.emit('out typing');
+            })
+            socket.on('chat message', function (msg) {
+                $('#message').val('');
+                $('.direct-chat-messages').append(recieverMessage(msg))
+            });
+            socket.on('typing', function (typingUser) {
+                $('#typing').removeClass('d-none').find('p').text(`${typingUser} is typing....`)
+            });
+            socket.on('out typing', function () {
+                $('#typing').addClass('d-none').find('p').text('')
+            });
+            socket.on("user disconnected", function (userName, count) {
+                if (userName) {
+                    let username = `.${userName.replace(' ', '')}-contact-item`
+                    console.log(username);
+                    $(username).remove()
+                    $('.direct-chat-messages').append(userLeft(userName, count))
+                }
+
+            });
+
+            function senderMessage(message) {
+                return `<div class="direct-chat-msg right">
+                    <div class="direct-chat-infos clearfix">
+                        <span class="direct-chat-name float-right">${currentUser}</span>
+                        <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
+                    </div>
+                    <!-- /.direct-chat-infos -->
+                    <img class="direct-chat-img" src="https://www.pngarts.com/files/6/User-Avatar-in-Suit-PNG.png" alt="message user image">
+                    <!-- /.direct-chat-img -->
+                    <div class="direct-chat-text">
+                        ${message}
+                    </div>
+                    <!-- /.direct-chat-text -->
+                </div>`;
+            }
+
+            function newUserJoin(user, count) {
+                let info = user == currentUser ? 'You' : user + ' is'
+                return `<div class="container text-center bg-info  rounded p-3 my-2">
+                        <h4>${info} now belong to gChat Community!</h4>
+                        <h6>We are now ${count} participants.</h6>
+                    </div>`
+            }
+
+            function userLeft(user, count) {
+                return `<div class="container text-center bg-danger  rounded p-3 my-2">
+                        <h4>${user} leave the gChat Community!</h4>
+                        <h6>We are only now ${count} participants.</h6>
+                    </div>`
+            }
+
+            function loading() {
+                return `
+                <div class="overlay">
+                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                </div>`;
+            }
+
+            function recieverMessage(message) {
+                return `<div class="direct-chat-msg">
+                    <div class="direct-chat-infos clearfix">
+                        <span class="direct-chat-name float-left">${message.sender}</span>
+                        <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
+                    </div>
+                    <!-- /.direct-chat-infos -->
+                    <img class="direct-chat-img" src="https://www.pngarts.com/files/6/User-Avatar-in-Suit-PNG.png" alt="message user image">
+                    <!-- /.direct-chat-img -->
+                    <div class="direct-chat-text">
+                        ${message.message}
+                    </div>
+                    <!-- /.direct-chat-text -->
+                </div>`;
+            }
+
+            function chatList(user) {
+                return `<li class="${user.replace(' ', '')}-contact-item contact-item" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle">
+                            <a href="#"  >
+                                <img class="contacts-list-img" src="https://www.pngarts.com/files/6/User-Avatar-in-Suit-PNG.png">
+
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                      ${user} 
+                                        
+                      <small class="contacts-list-date float-right">2/28/2015</small>
+                    </span>
+                                    <span class="contacts-list-msg">online</span>
+                                </div>
+                                <!-- /.contacts-list-info -->
+                            </a>
+                        </li>
+                    `
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -80,7 +80,7 @@
                     <div class="input-group">
                         <input type="text" id="message" placeholder="Type Message ..." class="form-control">
                         <span class="input-group-append">
-                            <button type="button" class="btn btn-primary">Send</button>
+                            <button type="submit" class="btn btn-primary">Send</button>
                         </span>
                     </div>
                 </form>
@@ -91,10 +91,13 @@
     </div>
 
 
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/adminlte.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/adminlte.min.js"></script>
+    <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
     <script src="/socket.io/socket.io.js"></script>
+
     <script>
+
         $(function () {
 
             var socket = io();
@@ -103,6 +106,7 @@
                 currentUser = user || `User${Math.floor(Math.random() * 1000000)}`;
                 socket.emit("new user", currentUser);
             };
+
             socket.on("new user", function (users, user) {
                 $('.contacts-list').html('')
 
@@ -113,6 +117,7 @@
                 $('.direct-chat-messages').append(newUserJoin(user, users.length))
 
             });
+
             $('#messageForm').submit(function (e) {
                 e.preventDefault(); // prevents page reloading
                 if ($('#message').val()) {
@@ -126,6 +131,7 @@
                 }
 
             });
+
             $('#login').submit(async function (e) {
                 e.preventDefault();
                 $('#loginDiv').append(loading())
@@ -137,22 +143,28 @@
                     $('.direct-chat').removeClass('d-none');
                 }, 3000)
             });
+
             $('#message').keyup(function () {
                 socket.emit('typing', currentUser);
             })
+
             $('#message').focusout(() => {
                 socket.emit('out typing');
             })
+
             socket.on('chat message', function (msg) {
                 $('#message').val('');
                 $('.direct-chat-messages').append(recieverMessage(msg))
             });
+
             socket.on('typing', function (typingUser) {
                 $('#typing').removeClass('d-none').find('p').text(`${typingUser} is typing....`)
             });
+
             socket.on('out typing', function () {
                 $('#typing').addClass('d-none').find('p').text('')
             });
+
             socket.on("user disconnected", function (userName, count) {
                 if (userName) {
                     let username = `.${userName.replace(' ', '')}-contact-item`
@@ -162,21 +174,22 @@
                 }
 
             });
+            
 
             function senderMessage(message) {
                 return `<div class="direct-chat-msg right">
-                    <div class="direct-chat-infos clearfix">
-                        <span class="direct-chat-name float-right">${currentUser}</span>
-                        <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="https://www.pngarts.com/files/6/User-Avatar-in-Suit-PNG.png" alt="message user image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                        ${message}
-                    </div>
-                    <!-- /.direct-chat-text -->
-                </div>`;
+                            <div class="direct-chat-infos clearfix">
+                                <span class="direct-chat-name float-right">${currentUser}</span>
+                                <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
+                            </div>
+                            <!-- /.direct-chat-infos -->
+                            <img class="direct-chat-img" src="https://www.pngarts.com/files/6/User-Avatar-in-Suit-PNG.png" alt="message user image">
+                            <!-- /.direct-chat-img -->
+                            <div class="direct-chat-text">
+                                ${message}
+                            </div>
+                            <!-- /.direct-chat-text -->
+                        </div>`;
             }
 
             function newUserJoin(user, count) {

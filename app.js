@@ -3,7 +3,7 @@ const express = require('express')
 var app = express()
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 7001;
 
 app.use(express.static('public'))
 
@@ -13,14 +13,14 @@ app.get('/', function(req, res) {
 
 const activeUsers = new Set();
 
-var chats = [{
-    to: 'lorem',
-    from: 'niks',
-    messages: [
-        { sender: 'lorem', content: 'llorem ipsum' }
-    ]
-}, ]
-var selected = "public"
+// var chats = [{
+//     to: 'lorem',
+//     from: 'niks',
+//     messages: [
+//         { sender: 'lorem', content: 'llorem ipsum' }
+//     ]
+// }, ]
+// var selected = "public"
 
 io.on('connection', function(socket) {
     socket.on('new user', function(user) {

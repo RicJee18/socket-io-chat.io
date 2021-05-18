@@ -622,7 +622,7 @@ pre code {
 .container-md,
 .container-lg,
 .container-xl {
-    width: 100%;
+    /* width: 100%; */
     padding-right: 7.5px;
     padding-left: 7.5px;
     margin-right: auto;
@@ -5059,7 +5059,7 @@ input[type="button"].btn-block {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     background-clip: border-box;
     border: 0 solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
@@ -13365,6 +13365,7 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .main-header::bef
     .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused .sidebar-form,
     .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused .user-panel>.info {
         display: block !important;
+        transform: translateZ(0);
         -webkit-transform: translateZ(0);
     }
     .sidebar-mini.sidebar-collapse .main-sidebar:hover .nav-sidebar>.nav-item>.nav-link>span,
@@ -13504,6 +13505,7 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .main-header::bef
     .sidebar-mini-md.sidebar-collapse .main-sidebar.sidebar-focused .sidebar-form,
     .sidebar-mini-md.sidebar-collapse .main-sidebar.sidebar-focused .user-panel>.info {
         display: block !important;
+        transform: translateZ(0);
         -webkit-transform: translateZ(0);
     }
     .sidebar-mini-md.sidebar-collapse .main-sidebar:hover .nav-sidebar>.nav-item>.nav-link>span,
@@ -18752,7 +18754,7 @@ html.maximized-card {
 }
 
 .modal-dialog .overlay {
-    background-color: #000;
+    background-color: rgb(133, 128, 128);
     display: block;
     height: 100%;
     left: 0;
@@ -27890,21 +27892,27 @@ select.form-control-sm~.select2-container--default .select2-selection--multiple 
 .info-box>.loading-img,
 .small-box>.overlay,
 .small-box>.loading-img {
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background-color: rgba(0,0,0,0.5); Black background with opacity */
+  /* z-index: 2; Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; 
 }
 
 .card .overlay,
 .overlay-wrapper .overlay,
 .info-box .overlay,
 .small-box .overlay {
-    border-radius: 0.25rem;
+    border-radius: 0rem;
     -ms-flex-align: center;
     align-items: center;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(75, 72, 72, 0.7);
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: center;
@@ -27936,7 +27944,7 @@ select.form-control-sm~.select2-container--default .select2-selection--multiple 
 .small-box .overlay>.fab,
 .small-box .overlay>.glyphicon,
 .small-box .overlay>.ion {
-    color: #343a40;
+    color: #0212a3;
 }
 
 .card .overlay.dark,
@@ -28707,7 +28715,7 @@ blockquote.quote-gray-dark h6 {
 }
 
 .bg-info {
-    background-color: #17a2b8 !important;
+    background-color: #17a3b862 !important;
 }
 
 .bg-info,

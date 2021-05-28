@@ -5,45 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gChat</title>
-
     <link rel="stylesheet" href="/css/adminlte.css">
     <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <style>
-      
-        body {
-            font-family: 'Montserrat';
-            font-size: 15px;
-        }
+<!-- <script src="https://raw.githack.com/Junzlay/emoji-library/main/emoji.js"></script> -->
+<link rel="stylesheet" href="https://raw.githack.com/Junzlay/emoji-library/main/emoji.css">
 
-        .message-container {
-            height: 350px!important;
-            max-height: 350px!important;
-            width: 100%;
-            overflow: auto;
-        }
 
-        #type{
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .fa-grin-alt{
-            font-size:24px;
-            background-color: antiquewhite;
-        }
-
-        .full {
-            height: 100vh;
-            min-height: 500px;
-        }
-
-    </style>
 </head>
 
 <body>
-    <div class="full d-flex justify-content-center align-items-center">
+    <div class=" d-flex justify-content-center align-items-center full">
         <div id="loginDiv" class="card" style="width: 400px;">
             <div class="p-5 text-center">
                 <img src="/images/bg3.png" width="100px" alt="bg-icon">
@@ -62,15 +40,18 @@
         </div>
 
         <!-- DIRECT CHAT -->
-        <div class="card direct-chat direct-chat-primary d-none w-50 fixed">
+        <div class="card direct-chat direct-chat-primary d-none  w-50 fixed">
             <div class="card-header bg-primary text-white">
                 <h3 class="card-title reciever ">Omegle Chat</h3>
 
                 <div class="card-tools">
+                    <button type="button" class="btn btn-tool" title="Group Chat" id="group-chat">
+                          <i class="fas fa-users"></i><span class="counter counter-md">1</span>
+                    </button>
 
                     <button type="button" class="btn btn-tool" data-toggle="tooltip" title="Active User"
                         data-widget="chat-pane-toggle">
-                        <i class="fas fa-comments"></i>
+                        <i class="fas fa-comments"></i><span class="counter counter-md">1</span>
                     </button>
 
                     <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
@@ -81,17 +62,22 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <div class="message-container">
-                    <!-- Conversations are loaded here -->
-                    <div class="direct-chat-messages">
+                <div class="container m-0">
+                    <div class="message-container" >
+                        <!-- Conversations are loaded here -->
+                        <div class="direct-chat-messages">
 
+                        </div>
+                        <!--/.direct-chat-messages-->
+                        <div class="private-chat d-none">
+<h4 class="text-center text-secondary mt-2">Private message</h4>
+                        </div>
                     </div>
-                    <!--/.direct-chat-messages-->
-                    </div>
+                </div>
                 <!-- Contacts are loaded here -->
                 <div class="direct-chat-contacts">
                     <ul class="contacts-list">
-
+                    
                     </ul>
                     <!-- /.contacts-list -->
                 </div>
@@ -104,16 +90,22 @@
             <div class="card-footer">
 
                 <form id="messageForm" action="#" method="post">
-                    <div class="input-group">
-                        <span class="input-group-prepend">
-                            <div class="input-group-text bg-transparent border-right-0"><i class="fas fa-grin-alt" id = "hello"></i></div>
-        
-                        </span>
-                        <input type="text" id="message" placeholder="Send a message ..." class="form-control border-left-0 border">
-                        <span class="input-group-append">
-                            <button type="submit" class="btn btn-primary">Send</button>
-                        </span>
-                    </div>
+                    <input type="text" class="message form-control h-25" data-emoji="true" id="chat-input" name="emoji" placeholder="Send a message ..." >
+                     
+                   <!-- <div class="row">
+                       <div class="col-sm-4">
+                       
+                       </div>
+                       <div class="col-sm-2">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                       </div>
+                   </div> -->
+                    <!-- <div class="input-group "> -->
+                        
+                          <!-- <span class="input-group-append"> -->
+                         
+                        <!-- </span> -->
+                    <!-- </div> -->
                 </form>
             </div>
             <!-- /.card-footer-->
@@ -126,7 +118,9 @@
     <script src="js/adminlte.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/action.js"></script>
+    <script src="js/emoji.js"></script>
 
+    <script src="https://raw.githack.com/Junzlay/emoji-library/main/emoji-hover.js"></script>
 </body>
 
 </html>

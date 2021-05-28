@@ -7,12 +7,13 @@ var port = process.env.PORT || 7001;
 
 app.use(express.static('public'))
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-const activeUsers = new Set();
 
+const activeUsers = new Set();
+var userNames={}
 // var chats = [{
 //     to: 'lorem',
 //     from: 'niks',
@@ -22,24 +23,34 @@ const activeUsers = new Set();
 // }, ]
 // var selected = "public"
 
-io.on('connection', function(socket) {
-    socket.on('new user', function(user) {
+io.on('connection', function (socket) {
+    socket.on('new user', function (user) {
         socket.userId = user;
         activeUsers.add(user)
-            // socket.broadcast.emit('new user', [...activeUsers]);
+        // socket.broadcast.emit('new user', [...activeUsers]);
         io.emit('new user', [...activeUsers], user);
+        var userName = user.name;
+        var userId = user.userId;
+        userNames[userName] = userId;
+        io.emit("mijoin",userNames)
+
     })
-    socket.on('chat message', function(msg) {
+    socket.on('chat message', function (msg) {
         socket.broadcast.emit('chat message', msg);
     });
 
-    socket.on('typing', function(user) {
+    socket.on('typing', function (user) {
         socket.broadcast.emit('typing', user);
     })
 
-    socket.on('out typing', function() {
+    socket.on('out typing', function () {
         socket.broadcast.emit('out typing');
     })
+    socket.on('private', (data)=> {
+        console.log(data.sender+": "+data.message)
+        // io.sockets.sockets[data.to].emit("private message", data);
+        io.emit(`private-ni`, data)
+    });
 
     socket.on('disconnect', () => {
         activeUsers.delete(socket.userId);
@@ -49,6 +60,6 @@ io.on('connection', function(socket) {
 
 
 
-http.listen(port, function() {
-    console.log('Server is running at http://localhost:'+ port);
+http.listen(port, function () {
+    console.log('Server is running at http://localhost:' + port);
 });

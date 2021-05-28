@@ -120,14 +120,8 @@ $(function () {
     //back to the group chat if it is click
     $('#group-chat').on('click', () => {
         $('.direct-chat-messages').removeClass('d-none').addClass('d-block')
-        $('private-chat').removeClass('d-block').addClass('d-none')
+        $('.private-chat').removeClass('d-block').addClass('d-none')
     })
-
-    //  this is for emoji emoji
-
-    // $('#hello').on('click',function(){
-    //     console.log('hello');
-    // })
 
     function newUserJoin(user, count) {
         let info = user == currentUser ? 'You' : user
@@ -229,10 +223,8 @@ $(function () {
     //this is for private message
     $(document).on('click', '.bot', function () {
         private = true;
-        // console.log($(this).children('.contacts-list-info').children().children('.username').html())
+       
         privateName = $(this).children('.contacts-list-info').children().children('.username').html().trim();
-        console.log(privateName)
-        // alert(this.innerHTML); 
         $('.reciever').html(privateName)
         $('.direct-chat-messages').removeClass('d-block').addClass('d-none')
         $('.private-chat').removeClass('d-none').addClass('d-block')

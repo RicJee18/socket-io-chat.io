@@ -14,20 +14,11 @@ app.get('/', function (req, res) {
 
 const activeUsers = new Set();
 var userNames={}
-// var chats = [{
-//     to: 'lorem',
-//     from: 'niks',
-//     messages: [
-//         { sender: 'lorem', content: 'llorem ipsum' }
-//     ]
-// }, ]
-// var selected = "public"
 
 io.on('connection', function (socket) {
     socket.on('new user', function (user) {
         socket.userId = user;
         activeUsers.add(user)
-        // socket.broadcast.emit('new user', [...activeUsers]);
         io.emit('new user', [...activeUsers], user);
         var userName = user.name;
         var userId = user.userId;
@@ -48,7 +39,6 @@ io.on('connection', function (socket) {
     })
     socket.on('private', (data)=> {
         console.log(data.sender+": "+data.message)
-        // io.sockets.sockets[data.to].emit("private message", data);
         io.emit(`private-ni`, data)
     });
 

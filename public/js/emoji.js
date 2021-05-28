@@ -80,9 +80,10 @@ close.style = `position: absolute;
   emojiTrigger.setAttribute("class", "rotate-emoji");
   emojiTrigger.style = `position: absolute;
   cursor:pointer;
-    top: -2px;
+    top: -1px;
     font-size:1.5rem;
-    right: 10px;
+    margin-right: 3px;
+    right:1px;
     text-decoration: none;`
 //   emojiTrigger.setAttribute('href', "javascript:void(0)")
   emojiTrigger.innerHTML = "😀"

@@ -9,12 +9,13 @@
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-<link rel="stylesheet" href="https://raw.githack.com/Junzlay/emoji-library/main/emoji.css">
+    <link rel="stylesheet" href="https://raw.githack.com/Junzlay/emoji-library/main/emoji.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 </head>
@@ -30,7 +31,8 @@
             <div class="card-body pt-0 pb-5 ">
                 <form id="login" action="#" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control text-center" id="username" placeholder="Enter Your Username ...">
+                        <input type="text" class="form-control text-center" id="username"
+                            placeholder="Enter Your Username ...">
                     </div>
                     <button type="submit" class="btn btn-primary btn-block" id="signin-button">Join</button>
                 </form>
@@ -45,7 +47,7 @@
 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" title="Group Chat" id="group-chat">
-                          <i class="fas fa-users"></i>
+                        <i class="fas fa-users"></i>
                     </button>
 
                     <button type="button" class="btn btn-tool" data-toggle="tooltip" title="Active User"
@@ -62,21 +64,21 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="container m-0">
-                    <div class="message-container" >
+                    <div class="message-container">
                         <!-- Conversations are loaded here -->
-                        <div class="direct-chat-messages">
+                        <div class="direct-chat-messages d-block">
 
                         </div>
                         <!--/.direct-chat-messages-->
                         <div class="private-chat d-none">
-                              <h5 class="text-center text-secondary mt-2">Private message</h5>
+                            <h5 class="text-center text-secondary mt-2 fixed">Private message</h5>
                         </div>
                     </div>
                 </div>
                 <!-- Contacts are loaded here -->
                 <div class="direct-chat-contacts">
                     <ul class="contacts-list">
-                    
+
                     </ul>
                     <!-- /.contacts-list -->
                 </div>
@@ -89,23 +91,27 @@
             <div class="card-footer">
 
                 <form id="messageForm" action="#" method="post">
-                    <input type="text" class="message form-control h-25" data-emoji="true" id="chat-input" name="emoji" placeholder="Send your message here..." >
+                  
+            
+                  <input type="text" class="message form-control h-50 p-2" style="width: 50%;" data-emoji="true" id="chat-input" name="emoji"
+                            placeholder="Send your message here...">
+             
+                  <button class="btn btn-sm btn-primary pull-right mt-1" type="submit" name="submit">Send</button>
+        
                 </form>
             </div>
             <!-- /.card-footer-->
-            <div class="box1"></div>
-	<div class="box2"></div>
+        
         </div>
         <!--/.direct-chat -->
     </div>
 
-   
+
     <script src="js/jquery.min.js"></script>
     <script src="js/adminlte.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/action.js"></script>
     <script src="js/emoji.js"></script>
-
     <script src="https://raw.githack.com/Junzlay/emoji-library/main/emoji-hover.js"></script>
 </body>
 

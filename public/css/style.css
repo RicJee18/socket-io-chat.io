@@ -1,39 +1,60 @@
-  
-        body {
-            font-family: 'Montserrat';
-            font-size: 15px;
-            background-image: url('https://cdn5.vectorstock.com/i/1000x1000/98/09/live-chat-neon-sign-on-dark-background-vector-28399809.jpg');
-            background-repeat: no-repeat;
-            background-size: 100%;
-        }
 
-       .message-container {
-            height: 350px!important;
-            max-height: 350px!important;
-            width: 100%;
-          
-            
-        }
+    body {
+        font-family: 'Montserrat';
+        font-size: 15px;
+        background-image: url('https://cdn5.vectorstock.com/i/1000x1000/98/09/live-chat-neon-sign-on-dark-background-vector-28399809.jpg');
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
 
-        .direct-chat-messages{
-            overflow: hidden;
-        }
+    .message-container {
+        overflow: auto;      
+        height: 350px!important;
+        max-height: 350px!important;
+        width: 100%;
+    }
+    
+    .direct-chat-messages{
+        overflow: auto;
+    }
 
-        #type{
-            font-size: 11px;
-            font-weight: bold;
-        }
+    .private-chat{
+        height: 350px!important;
+        max-height: 350px!important;
+        width: 100%;
+        overflow: auto;
+    }
 
-        .fa-grin-alt{
-            font-size:24px;
-            background-color: antiquewhite;
-        }
+    #type{
+        font-size: 11px;
+        font-weight: bold;
+    }
 
-        .full {
-            height: 100vh;
-            min-height: 500px;
-        }
-         
+    .fa-grin-alt{
+        font-size:24px;
+        background-color: antiquewhite;
+    }
+
+    .full {
+        height: 100vh;
+        min-height: 500px;
+    }
         
-        
-       
+    .counter.counter-md{
+        /* margin-top: -90px !important; */
+        background-color: red;
+        border-radius: 50%;
+        display: inline-block;
+        height: 15px;
+        width: 15px;
+        font-size: 11px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    
+    .direct-chat-msg{
+        margin-bottom: 29px;
+    }
+
+    
+    
+    

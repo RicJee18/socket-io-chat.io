@@ -30,7 +30,7 @@ $(function () {
 
             if (private) {
                 socket.emit("private", { message: $('.message').val(), to: privateName, sender: currentUser });
-                // 
+                
             } else {
                 socket.emit('chat message', {
                     message: $('.message').val(),
@@ -89,14 +89,14 @@ $(function () {
         $('.message').val('');
         $('.direct-chat-messages').append(recieverMessage(msg))
         $(".message-container").animate({
-            scrollTop: $(".message-container")[0].scrollHeight
+            scrollTop: $(".message-container")[0].scrollHeight   
         }, 1000);
     });
 
 
     //show when typing 
     socket.on('typing', function (typingUser) {
-
+       
         $('#typing').removeClass('d-none').find('p').text(`${typingUser} is typing....`);
 
     });
@@ -113,6 +113,7 @@ $(function () {
             console.log(username);
             $(username).remove()
             $('.direct-chat-messages').append(userLeft(userName, count))
+          
         }
 
     });
@@ -122,6 +123,7 @@ $(function () {
         $('.direct-chat-messages').removeClass('d-none').addClass('d-block')
         $('.private-chat').removeClass('d-block').addClass('d-none')
     })
+
 
     function newUserJoin(user, count) {
         let info = user == currentUser ? 'You' : user
@@ -197,7 +199,7 @@ $(function () {
     var today = new Date();
 
     function chatList(user) {
-        console.log(user);
+      
         return `<li  class="${user.replace(' ', '')}-contact-item contact-item bot"  data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle">
                     
                         <img class="contacts-list-img" src="https://www.pngarts.com/files/6/User-Avatar-in-Suit-PNG.png">
@@ -228,7 +230,13 @@ $(function () {
         $('.reciever').html(privateName)
         $('.direct-chat-messages').removeClass('d-block').addClass('d-none')
         $('.private-chat').removeClass('d-none').addClass('d-block')
-    })
 
+        $('#group-chat').on('click',function(){  
+            $('.reciever').html("Omegle Chat")
+            $('.private-chat').removeClass('d-block').addClass('d-none')
+            $('.direct-chat-messages').removeClass('d-none').addClass('d-block')
+        });
+        
+    })
 
 });
